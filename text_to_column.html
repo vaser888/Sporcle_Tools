@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<head>
+    <meta name="viewport" content="width=device-width, inital-scale=1.0">
+    <title>Text to Column</title>
+    <link rel="stylesheet" href="text_to_column.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <form>
+        <div class="title">Text Input</div>
+        <div id="numberOutput" class="title">Number of words =</div>
+        <textarea id="textInput"></textarea>
+        <button onclick="count()">Make column of lyrics</button>
+        <div class="title">Use (Ctl + a) to select all the words and (Ctl + c) to copy</use></div>
+    </form>
+    <div id="output" class="output"></div>
+
+    <footer>
+        <div v>Made by Vaser888</div>
+    </footer>
+</body>
+
+<script>
+    function count(){
+        event.preventDefault();
+        var text_string = document.getElementById("textInput").value
+        console.log(text_string)
+        text_string = text_string.split(" ");
+        for (i=0; i<text_string.length; i++){
+            let temp = text_string[i].split("\n");
+            if (temp.length>1){
+                text_string.splice(i,1,temp);
+            }
+        }
+        text_string = text_string.flat();
+        text_string = text_string.filter(elm => elm);
+        console.log(text_string);
+
+        document.getElementById("numberOutput").innerText="Number of words = " + text_string.length;
+        
+        var out = ""
+        for (i=0;i<text_string.length;i++){
+            out = out +text_string[i] + "<br>"
+        }
+        document.getElementById("output").innerHTML = out;
+
+    }
+
+</script>
