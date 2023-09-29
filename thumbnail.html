@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, inital-scale=1.0">
+    <title>Thumbnail formater</title>
+    <link rel="stylesheet" href="thumbnail.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="dropZoneArea" id="dropZone" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);" ondragleave="leave(event);" style="opacity: 1;">
+        <div>Drop your image here</div>
+        <input id="fileSelect" type="file" onchange="fileSelectHandler(event);"> 
+    </div>
+
+    <div class="stop2">
+        <div>Side colors:</div>
+        <input id="colourPicker" class="colourPicker" type="color" onchange="test()">
+    </div>
+
+    <div class="stop">
+    <canvas id="canvas" width="1200" height="630"></canvas>
+    </div>
+
+    
+</body>
+
+<script>
+
+let colorPicker;
+
+window.addEventListener("load", startup, false);
+
+    function startup(){
+        colorPicker = document.getElementById("colourPicker");
+        colorPicker.addEventListener("input", test2, false);
+    }
+
+function test2(event){
+    changeBackground(event.target.value);
+}
+
+function test(){
+    var colourValue = document.getElementById("colourPicker").value;
+}
+
+function changeBackground(colour){
+    ctx.fillStyle = colour;
+    ctx.fillRect(0, 0, 1200, 630);
+    ctx.drawImage(loadedImage, moveWidth, 0, imgWidth, 630);
+    //console.log(moveWidth,imgWidth);
+}
+
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+ctx.fillStyle = "white";
+ctx.fillRect(0, 0, 1200, 630);
+
+var loadedImage = null;
+var moveWidth = null;
+var imgWidth = null;
+
+  // code modified from https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API/File_drag_and_drop#prevent_the_browsers_default_drag_behavior and https://developer.mozilla.org/en-US/docs/Web/API/FileReader/FileReader
+
+function dropHandler(ev) {
+
+    // Prevent default behavior (Prevent file from being opened)
+    ev.preventDefault();
+
+    //grab the first file and read it's data
+    var file = ev.dataTransfer.files[0], reader = new FileReader();
+    //console.log(file);
+
+    reader.onload = function() {
+        var img = new Image;
+        img.onload = function() {
+            imgWidth = img.width;
+            var imgHeight = img.height;
+            var scale = 630/imgHeight
+            imgWidth = Math.floor(imgWidth*scale);
+            moveWidth = Math.floor((1200 - imgWidth)/2);
+            //console.log(imgWidth, imgHeight, scale); //1198 1200
+            ctx.fillStyle = "white";
+            ctx.fillRect(0,0, 1200, 630);
+            ctx.drawImage(img, moveWidth, 0, imgWidth, 630); //img, dx, dy ,dWidth, dHeight
+        }
+        img.src = reader.result;
+        loadedImage = img;
+    }
+    reader.readAsDataURL(file);
+
+    //reader.readAsText(file);
+    document.getElementById("dropZone").style.opacity = '1';
+}
+
+function dragOverHandler(ev) {
+    // Prevent default behavior (Prevent file from being opened)
+    ev.preventDefault();
+    document.getElementById("dropZone").style.opacity = '0.45';
+}
+function leave(ev) {
+    ev.preventDefault();
+    document.getElementById("dropZone").style.opacity = '1';
+}
+
+function fileSelectHandler(ev) {
+    //get selected file data and send to selected day js
+    var file = document.getElementById("fileSelect").files[0];
+    var reader = new FileReader();
+
+    //console.log(file);
+
+    reader.onload = function() {
+        var img = new Image;
+        img.onload = function() {
+            imgWidth = img.width;
+            var imgHeight = img.height;
+            var scale = 630/imgHeight
+            imgWidth = Math.floor(imgWidth*scale);
+            moveWidth = Math.floor((1200 - imgWidth)/2);
+            //console.log(imgWidth, imgHeight, scale); //1198 1200
+            ctx.fillStyle = "white";
+            ctx.fillRect(0,0, 1200, 630);
+            ctx.drawImage(img, moveWidth, 0, imgWidth, 630); //img, dx, dy ,dWidth, dHeight
+        }
+        img.src = reader.result;
+        loadedImage = img;
+    }
+    reader.readAsDataURL(file);
+}
+
+</script>
+
+</html>

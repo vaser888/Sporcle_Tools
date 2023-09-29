@@ -1,0 +1,57 @@
+body {
+  font: 1.5rem 'Open Sans', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #37373a;
+  color: white;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+
+.dropZoneArea {
+  margin-top: 36px;
+  border: 1px;
+  outline-style: dashed;
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  max-width: 45rem;
+  height: 10rem;
+  color: #bfbfbf;
+  align-self: center;
+  width: 100%;
+}
+
+.dropZoneArea div, .dropZoneArea input {
+    align-self: center;
+}
+
+.stop, .stop2{
+    display: flex;
+    justify-content: center;
+}
+
+canvas {
+    padding: 36px 0px;
+    width: 90%;
+    max-width: 1200px;
+}
+
+.colourPicker {
+  border: none;
+  border-width: 0;
+  outline: none;
+
+  width: 10%;
+}
+
+.stop2 {
+  padding-top: 36px;
+}
+.stop2 div{
+
+  padding-right: 12px;
+}
