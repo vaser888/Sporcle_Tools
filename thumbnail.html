@@ -16,11 +16,14 @@
 
     <div class="stop2">
         <div>Side colors:</div>
-        <input id="colourPicker" class="colourPicker" type="color" onchange="test()">
+        <input id="colourPicker" class="colourPicker" type="color" onchange="saveColorChangeValue()" value="#7f7f7f">
     </div>
 
     <div class="stop">
     <canvas id="canvas" width="1200" height="630"></canvas>
+    </div>
+    <div class="stop">
+        <a id="save" href="" download="Thumbnail.png">Save image</a>
     </div>
 
     
@@ -28,21 +31,29 @@
 
 <script>
 
+function saveImage() {
+    var imageData = ctx.getImageData(0,0,1200,630);
+    var URLimageData = canvas.toDataURL();
+    var i = document.getElementById("save");
+    i.setAttribute("href", URLimageData);
+}
+
 let colorPicker;
 
 window.addEventListener("load", startup, false);
 
-    function startup(){
-        colorPicker = document.getElementById("colourPicker");
-        colorPicker.addEventListener("input", test2, false);
-    }
+function startup(){
+    colorPicker = document.getElementById("colourPicker");
+    colorPicker.addEventListener("input", backgroundColorChange, false);
+}
 
-function test2(event){
+function backgroundColorChange(event){
     changeBackground(event.target.value);
 }
 
-function test(){
+function saveColorChangeValue(){
     var colourValue = document.getElementById("colourPicker").value;
+    saveImage();
 }
 
 function changeBackground(colour){
@@ -84,6 +95,7 @@ function dropHandler(ev) {
             ctx.fillStyle = "white";
             ctx.fillRect(0,0, 1200, 630);
             ctx.drawImage(img, moveWidth, 0, imgWidth, 630); //img, dx, dy ,dWidth, dHeight
+            saveImage();
         }
         img.src = reader.result;
         loadedImage = img;
@@ -123,12 +135,15 @@ function fileSelectHandler(ev) {
             ctx.fillStyle = "white";
             ctx.fillRect(0,0, 1200, 630);
             ctx.drawImage(img, moveWidth, 0, imgWidth, 630); //img, dx, dy ,dWidth, dHeight
+            saveImage()
         }
         img.src = reader.result;
         loadedImage = img;
     }
     reader.readAsDataURL(file);
 }
+
+saveImage();
 
 </script>
 

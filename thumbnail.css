@@ -55,3 +55,13 @@ canvas {
 
   padding-right: 12px;
 }
+
+.stop a {
+  text-decoration: none;
+  color: #a8a8a8;
+  padding-bottom: 36px;
+}
+
+.stop a:hover {
+  color: white;
+}
